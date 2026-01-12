@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tienda Virtual — Bajo construcción</title>
+  <meta name="description" content="Nuestra tienda virtual está bajo construcción. Deja tu correo y te avisamos cuando esté lista." />
 
   <style>
     :root{
@@ -14,166 +15,285 @@
       --muted:#b7c3ffcc;
       --accent:#7c5cff;
       --accent2:#24d0ff;
-      --radius:24px;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 22px;
     }
-    *{box-sizing:border-box}
+
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
     body{
       margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
       color:var(--text);
       background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(124,92,255,.22), transparent 60%),
-        radial-gradient(900px 700px at 85% 25%, rgba(36,208,255,.18), transparent 55%),
+        radial-gradient(900px 650px at 15% 10%, rgba(124,92,255,.22), transparent 60%),
+        radial-gradient(800px 600px at 90% 20%, rgba(36,208,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 50% 110%, rgba(255,255,255,.06), transparent 55%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
     }
 
-    .wrap{
-      width:min(900px,92vw);
+    /* safe area + spacing for mobile */
+    .container{
+      min-height:100%;
       display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:28px;
-      align-items:center;
+      place-items:center;
+      padding: clamp(16px, 4vw, 40px);
+      padding-bottom: calc(clamp(16px, 4vw, 40px) + env(safe-area-inset-bottom));
+      padding-top: calc(clamp(16px, 4vw, 40px) + env(safe-area-inset-top));
     }
 
-    @media (max-width:860px){
-      .wrap{grid-template-columns:1fr;text-align:center}
+    /* layout: mobile first = 1 column */
+    .wrap{
+      width: min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    /* desktop / tablet */
+    @media (min-width: 860px){
+      .wrap{
+        grid-template-columns: 1.1fr .9fr;
+        gap: 28px;
+        align-items:center;
+      }
     }
 
     .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:32px;
-      border:1px solid rgba(255,255,255,.1);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      padding: clamp(18px, 3.5vw, 34px);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(124,92,255,.15);
+      border: 1px solid rgba(124,92,255,.25);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+    .dot{
+      width:8px; height:8px;
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(124,92,255,.15);
     }
 
     h1{
-      margin:0 0 10px;
-      font-size:clamp(28px,4vw,42px);
+      margin:0 0 10px 0;
+      font-size: clamp(26px, 6vw, 44px);
+      line-height:1.1;
+      letter-spacing: -0.02em;
     }
-
     p{
-      margin:0 0 22px;
-      color:var(--muted);
+      margin:0 0 18px 0;
+      color: var(--muted);
+      font-size: clamp(14px, 3.6vw, 16px);
       line-height:1.6;
     }
 
-    /* EMAIL BAR */
+    /* EMAIL BAR - responsive */
     .notify{
       display:flex;
-      gap:10px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:16px;
-      padding:10px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
     }
 
     .notify input{
-      flex:1;
-      background:transparent;
-      border:none;
-      outline:none;
-      color:var(--text);
-      font-size:16px;
-      padding:12px 14px;
+      width:100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px; /* prevents iOS zoom */
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
     }
-
-    .notify input::placeholder{
-      color:rgba(183,195,255,.7);
-    }
+    .notify input::placeholder{ color: rgba(183,195,255,.7); }
 
     .notify button{
-      padding:12px 18px;
-      border:none;
-      border-radius:12px;
-      font-weight:600;
-      cursor:pointer;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#081024;
-      transition:transform .1s ease;
+      width:100%;
+      border: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      color: #071022;
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(36,208,255,.85));
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .notify button:active{ transform: translateY(1px); }
+
+    /* On wider screens, input + button in one row */
+    @media (min-width: 520px){
+      .notify{ flex-direction: row; align-items: center; }
+      .notify input{ flex: 1; }
+      .notify button{ width: auto; white-space: nowrap; }
     }
 
-    .notify button:hover{
-      transform:translateY(-1px);
+    .hint{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(183,195,255,.7);
     }
 
-    .success{
-      margin-top:14px;
-      font-size:14px;
-      color:#9cffc7;
+    .msg{
+      margin-top: 12px;
+      font-size: 14px;
       display:none;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
     }
+    .msg.success{ color: #9cffc7; }
+    .msg.error{ color: #ffb3b3; }
 
-    /* CAT */
+    /* Kitty */
     .kitty-card{
       display:grid;
       place-items:center;
+      text-align:center;
+      gap: 12px;
     }
-
     .kitty{
-      width:220px;
-      height:220px;
-      border-radius:26px;
+      width: min(260px, 70vw);
+      aspect-ratio: 1 / 1;
+      border-radius: 26px;
       display:grid;
       place-items:center;
-      font-size:90px;
-      background:linear-gradient(135deg, rgba(124,92,255,.18), rgba(36,208,255,.18));
-      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.14), transparent 45%),
+        radial-gradient(circle at 70% 70%, rgba(36,208,255,.14), transparent 50%),
+        linear-gradient(135deg, rgba(124,92,255,.18), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .kitty::before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background: conic-gradient(from 120deg, rgba(36,208,255,.0), rgba(36,208,255,.16), rgba(124,92,255,.0));
+      animation: spin 7s linear infinite;
+      opacity:.8;
+      pointer-events:none;
+    }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+
+    .kitty-face{
+      position:relative;
+      z-index:1;
+      font-size: clamp(70px, 18vw, 96px);
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.35));
+      animation: bob 2.8s ease-in-out infinite;
+    }
+    @keyframes bob{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
     }
 
     footer{
-      margin-top:20px;
-      font-size:12px;
-      color:rgba(183,195,255,.7);
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(183,195,255,.75);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .kitty::before, .kitty-face{ animation:none; }
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <main class="wrap">
+      <section class="card">
+        <div class="pill"><span class="dot"></span> Próximamente</div>
 
-  <main class="wrap">
-    <section class="card">
-      <h1>🚧 Tienda virtual bajo construcción</h1>
-      <p>
-        Estamos preparando algo especial 🐾  
-        Déjanos tu correo y te avisamos apenas abramos la tienda.
-      </p>
+        <h1>🚧 Tienda virtual <span style="color:#cdd6ff">bajo construcción</span></h1>
+        <p>
+          Estamos preparando algo bonito para ti 🐾<br/>
+          Deja tu correo y te avisamos apenas esté lista.
+        </p>
 
-      <form class="notify" id="notifyForm">
-        <input 
-          type="email" 
-          id="email"
-          placeholder="Tu correo electrónico"
-          required
-        />
-        <button type="submit">Notificarme</button>
-      </form>
+        <form class="notify" id="notifyForm" autocomplete="on" novalidate>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="tucorreo@ejemplo.com"
+            inputmode="email"
+            autocomplete="email"
+            required
+          />
+          <button type="submit">Notificarme</button>
+        </form>
 
-      <div class="success" id="successMsg">
-        😺 ¡Listo! Te avisaremos cuando la tienda esté abierta.
-      </div>
+        <div class="hint">Cero spam. Solo te escribimos cuando abramos.</div>
 
-      <footer>
-        © <span id="year"></span> Tu marca
-      </footer>
-    </section>
+        <div class="msg success" id="successMsg">😺 ¡Listo! Te avisaremos cuando la tienda esté abierta.</div>
+        <div class="msg error" id="errorMsg">Ups, ese correo no parece válido. Revisa e inténtalo otra vez.</div>
 
-    <aside class="card kitty-card">
-      <div class="kitty">😺</div>
-    </aside>
-  </main>
+        <footer>© <span id="year"></span> Tu marca</footer>
+      </section>
+
+      <aside class="card kitty-card">
+        <div class="kitty" aria-label="Gato bonito">
+          <div class="kitty-face" aria-hidden="true">😺</div>
+        </div>
+        <div style="color:var(--muted); font-size:14px">
+          Nuestro jefe de calidad está supervisando la tienda.
+        </div>
+      </aside>
+    </main>
+  </div>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    document.getElementById("notifyForm").addEventListener("submit", function(e){
+    const form = document.getElementById("notifyForm");
+    const emailInput = document.getElementById("email");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
+
+    form.addEventListener("submit", function(e){
       e.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+
+      const email = (emailInput.value || "").trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if(!ok){
+        errorMsg.style.display = "block";
+        emailInput.focus();
+        return;
+      }
+
+      // Aquí después lo conectas a tu backend / Mailchimp / Google Sheets, etc.
+      successMsg.style.display = "block";
+      form.reset();
     });
   </script>
-
 </body>
 </html>
